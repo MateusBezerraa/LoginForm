@@ -29,7 +29,7 @@ neste caso o objeto 'nome'
 
 function validarNome(e){ 
     //declaração da expressão regular para definir o formato de um nome válido
-    const regexNome = /^[A-Za-z ]+$/;
+    const regexNome = /^[A-Z][a-z]+(?: [A-Z][a-z]+)*$/;
     const nome = e.target.value.trim();
 
     console.log(e); //impressão em console do objeto evento e
