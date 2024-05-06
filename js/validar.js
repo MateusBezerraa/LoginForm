@@ -108,7 +108,8 @@ function validarSenha(e){
     
     const nome = document.querySelector("#inputName").value.trim().toLowerCase();
     const ano = document.querySelector("#inputYear").value.trim();
-   
+    const barra = document.getElementById('passStrengthMeter').value;
+
     console.log(senha);
     console.log(nome);
     console.log(ano);
@@ -117,52 +118,55 @@ function validarSenha(e){
     if (!regexSenha.test(senha)) {
         pwHelp.textContent = "Senha inválida. Certifique-se de que a senha tem entre 6 e 20 caracteres, contém números, letras e caracteres especiais [@#%&!+].";
         pwHelp.style.color = "red";
+        barra = 0;
         return;
     } else {
         pwHelp.textContent = "";
     }
-
+    
     // Verifica se a senha contém o nome ou o ano de nascimento
-
+    
     if (nome && ano && (senha.toLowerCase().includes(nome) || senha.includes(ano))) {
         pwHelp.textContent = "A senha não deve conter seu nome ou ano de nascimento.";
         pwHelp.style.color = "red";
+        barra = 0;
         return;
     }
+    
+    // Avalia a força da senha
+    let forca = 0;
+    const possuiEspecial = /[@#%&!+]/.test(senha);
+    const possuiNumero = /[0-9]/.test(senha);
+    const possuiLetraMaiuscula = /[A-Z]/.test(senha);
+    const possuiMaisEspeciais = (senha.match(/[@#%&!+]/g) || []).length > 1;
+    const possuiMaisNumeros = (senha.match(/[0-9]/g) || []).length > 1;
+    const possuiMaisMaiusculas = (senha.match(/[A-Z]/g) || []).length > 1;
+ 
+    // Define o nível de força da senha
+    if (senha.length >= 6 && possuiEspecial && possuiNumero) {
+        forca = 10; // Base para senhas válidas
+        if (senha.length >= 8 && possuiLetraMaiuscula) {
+            forca = 20;
+        }
+        if (senha.length > 12 && possuiMaisEspeciais && possuiMaisNumeros && possuiMaisMaiusculas) {
+            forca = 30;
+        }
+    }
+    
+    barra = forca;
 
-     // Avalia a força da senha
-     let forca = 0;
-     const possuiEspecial = /[@#%&!+]/.test(senha);
-     const possuiNumero = /[0-9]/.test(senha);
-     const possuiLetraMaiuscula = /[A-Z]/.test(senha);
-     const possuiMaisEspeciais = (senha.match(/[@#%&!+]/g) || []).length > 1;
-     const possuiMaisNumeros = (senha.match(/[0-9]/g) || []).length > 1;
-     const possuiMaisMaiusculas = (senha.match(/[A-Z]/g) || []).length > 1;
- 
-     // Define o nível de força da senha
-     if (senha.length >= 6 && possuiEspecial && possuiNumero) {
-         forca = 10; // Base para senhas válidas
-         if (senha.length >= 8 && possuiLetraMaiuscula) {
-             forca = 20;
-         }
-         if (senha.length > 12 && possuiMaisEspeciais && possuiMaisNumeros && possuiMaisMaiusculas) {
-             forca = 30;
-         }
-     }
- 
-     document.getElementById('passStrengthMeter').value = forca;
- 
-     if (forca === 10) {
-         pwHelp.textContent = "Senha fraca.";
-         pwHelp.style.color = "red";
-     } else if (forca === 20) {
-         pwHelp.textContent = "Senha moderada.";
-         pwHelp.style.color = "orange";
-     } else if (forca === 30) {
-         pwHelp.textContent = "Senha forte.";
-         pwHelp.style.color = "green";
-     } else {
-         pwHelp.textContent = "";
-         pwHelp.style.color = "";
-     }
+    if (forca === 10) {
+        pwHelp.textContent = "Senha fraca.";
+        pwHelp.style.color = "red";
+    } else if (forca === 20) {
+        pwHelp.textContent = "Senha moderada.";
+        pwHelp.style.color = "orange";
+    } else if (forca === 30) {
+        pwHelp.textContent = "Senha forte.";
+        pwHelp.style.color = "green";
+    } else {
+        barra = 0;
+        pwHelp.textContent = "";
+        pwHelp.style.color = "";
+    }
 }
