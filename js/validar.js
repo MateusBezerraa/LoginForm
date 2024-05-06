@@ -108,7 +108,6 @@ function validarSenha(e){
     
     const nome = document.querySelector("#inputName").value.trim().toLowerCase();
     const ano = document.querySelector("#inputYear").value.trim();
-    const barra = document.getElementById('passStrengthMeter').value;
 
     console.log(senha);
     console.log(nome);
@@ -118,7 +117,7 @@ function validarSenha(e){
     if (!regexSenha.test(senha)) {
         pwHelp.textContent = "Senha inválida. Certifique-se de que a senha tem entre 6 e 20 caracteres, contém números, letras e caracteres especiais [@#%&!+].";
         pwHelp.style.color = "red";
-        barra = 0;
+        document.getElementById('passStrengthMeter').value = 0;
         return;
     } else {
         pwHelp.textContent = "";
@@ -129,7 +128,7 @@ function validarSenha(e){
     if (nome && ano && (senha.toLowerCase().includes(nome) || senha.includes(ano))) {
         pwHelp.textContent = "A senha não deve conter seu nome ou ano de nascimento.";
         pwHelp.style.color = "red";
-        barra = 0;
+        document.getElementById('passStrengthMeter').value = 0;
         return;
     }
     
@@ -141,7 +140,7 @@ function validarSenha(e){
     const possuiMaisEspeciais = (senha.match(/[@#%&!+]/g) || []).length > 1;
     const possuiMaisNumeros = (senha.match(/[0-9]/g) || []).length > 1;
     const possuiMaisMaiusculas = (senha.match(/[A-Z]/g) || []).length > 1;
- 
+
     // Define o nível de força da senha
     if (senha.length >= 6 && possuiEspecial && possuiNumero) {
         forca = 10; // Base para senhas válidas
@@ -152,8 +151,8 @@ function validarSenha(e){
             forca = 30;
         }
     }
-    
-    barra = forca;
+ 
+    document.getElementById('passStrengthMeter').value = forca;
 
     if (forca === 10) {
         pwHelp.textContent = "Senha fraca.";
@@ -165,7 +164,6 @@ function validarSenha(e){
         pwHelp.textContent = "Senha forte.";
         pwHelp.style.color = "green";
     } else {
-        barra = 0;
         pwHelp.textContent = "";
         pwHelp.style.color = "";
     }
