@@ -29,13 +29,13 @@ neste caso o objeto 'nome'
 
 function validarNome(e){ 
     //declaração da expressão regular para definir o formato de um nome válido
-    const regexNome = /^[A-Z][a-z]+ [A-Z][a-z]+$/;
+    const regexNome = /^[A-Za-z ]+$/;
     const nome = e.target.value.trim();
 
     console.log(e); //impressão em console do objeto evento e
     console.log(e.target.value); //impressão em console do valor do objeto 'nome' que originou o evento   
 
-    if(nome.match(regexNome)==null || nome.length <= 6){
+    if(nome.match(regexNome)==null || nome.length < 6 || nome.length > 30){
         //muda o conteúdo e o estilo do objeto nomeHelp que referencia o elemento html com id=inputNameHelp
         nomeHelp.textContent = "Formato de nome inválido"; 
         nomeHelp.style.color="red";
