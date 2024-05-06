@@ -123,7 +123,8 @@ function validarSenha(e){
     }
 
     // Verifica se a senha contém o nome ou o ano de nascimento
-    if (senha.toLowerCase().includes(nome) || senha.includes(ano)) {
+
+    if (nome && ano && (senha.toLowerCase().includes(nome) || senha.includes(ano))) {
         pwHelp.textContent = "A senha não deve conter seu nome ou ano de nascimento.";
         pwHelp.style.color = "red";
         return;
