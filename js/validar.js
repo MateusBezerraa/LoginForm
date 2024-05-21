@@ -25,7 +25,7 @@ function validarNome(nome) {
     const regexNome = /^[A-Z][a-z]+(?: [A-Z][a-z]+)*$/;
     const nomeTrimado = nome.trim();
 
-    if(nomeTrimado.match(regexNome) == null || nomeTrimado.length < 6){
+    if(nomeTrimado.match(regexNome) == null || nomeTrimado.length < 6 || nomeTrimado.length > 30){
         nomeHelp.textContent = "Nome inválido"; 
         nomeHelp.style.color = "red";
         return false;
